@@ -19,21 +19,18 @@ int main(){
 		A.push_back(make_pair(x, y));
 	}
 	
-	int k = 1;
-	bool check = true;
+	int count;
 	for(int i = 0; i < N; i++){
+		count = 0;
 		for(int j = 0; j < N; j++){
 			if(i == j){
 				continue;
 			}
 			if(A[i].first < A[j].first && A[i].second < A[j].second){
-				check = false;
+				count++;
 			}
 		}
-		result[i] = k;
-		if(check){
-			k++;
-		}
+		result[i] = count+1;
 	}
 	
 	for(int i = 0; i < N; i++){
