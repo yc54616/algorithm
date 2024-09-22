@@ -1,50 +1,57 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
-static long long N, K;
-static vector<long long> A;
+typedef long long ll;
 
-int checkN(int n);
+static ll N, M;
+static vector<ll> A;
+
+bool checkN(ll target);
 
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    cin >> N >> K;
+    cin >> N >> M;
     A.resize(N);
-    long long Max = 0;
+    
+    ll Max = 0;
     for(int i = 0; i < N; i++){
         cin >> A[i];
         Max = max(Max, A[i]);
     }
 
-    long long start = 1;
-    long long end = Max;
-    long long ans = 0;
-    while(start <= end){
-        long long mid = (start + end)/2;
-        long long target = checkN(mid);
+    ll start = 1;
+    ll end = Max;
+    ll ans = 0;
 
-        if(target >= K){
+    while(start <= end){
+        ll mid = (start+end)/2;
+
+        if(checkN(mid)){
             ans = max(ans, mid);
             start = mid + 1;
         }
-        else if(target < K)
+        else{
             end = mid - 1;
+        }
     }
 
     cout << ans;
 }
 
-int checkN(int n){
-    int cnt = 0;
+bool checkN(ll target){
+    ll sum = 0;
     for(int i = 0; i < N; i++){
-        cnt += A[i]/n;
+        if(A[i] > target){
+            sum += A[i]-target;
+        }
     }
-
-    return cnt;
+    if(sum >= M)
+        return true;
+    else
+        return false;
 }
