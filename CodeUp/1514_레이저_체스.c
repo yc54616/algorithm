@@ -2,13 +2,13 @@
 
 #define SIZE 7
 
-int laser[SIZE + 1][SIZE + 1] = {0};
-int splitter[SIZE + 1][SIZE + 1] = {0};
-int visited[SIZE + 1][SIZE + 1][4] = {0};
-int splitters[3][2];
+int main(void) {
+    int laser[SIZE + 1][SIZE + 1] = {0};
+    int splitter[SIZE + 1][SIZE + 1] = {0};
+    int visited[SIZE + 1][SIZE + 1][4] = {0};
+    int splitters[3][2];
 
-int main() {
-    for(int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
         int x, y;
         scanf("%d %d", &x, &y);
         splitters[i][0] = x;
@@ -16,12 +16,14 @@ int main() {
         splitter[x][y] = 1;
     }
 
-    int dx[] = {-1, 1, 0, 0};
-    int dy[] = {0, 0, -1, 1};
-    // dir = 0: up, 1: down, 2: left, 3: right
+    int dx[4] = {-1, 1, 0, 0};
+    int dy[4] = {0, 0, -1, 1};
 
-    int qx[4096], qy[4096], qd[4096];
-    int head = 0, tail = 0;
+    int qx[4096];
+    int qy[4096];
+    int qd[4096];
+    int head = 0;
+    int tail = 0;
 
     qx[tail] = 4;
     qy[tail] = 0;
@@ -38,22 +40,21 @@ int main() {
             x += dx[dir];
             y += dy[dir];
 
-            if(x < 1 || x > SIZE || y < 1 || y > SIZE) {
+            if (x < 1 || x > SIZE || y < 1 || y > SIZE) {
                 break;
             }
 
-            if(visited[x][y][dir]) {
+            if (visited[x][y][dir]) {
                 break;
             }
-
             visited[x][y][dir] = 1;
 
-            if(!splitter[x][y]) {
+            if (!splitter[x][y]) {
                 laser[x][y] = 1;
             }
 
-            if(splitter[x][y]) {
-                if(dir == 0 || dir == 1){
+            if (splitter[x][y]) {
+                if (dir == 0 || dir == 1) {
                     qx[tail] = x;
                     qy[tail] = y;
                     qd[tail] = 2;
@@ -76,7 +77,6 @@ int main() {
                 }
             }
         }
-        
     }
 
     for (int i = 0; i < 3; i++) {
@@ -91,6 +91,6 @@ int main() {
         }
         printf("\n");
     }
-    
+
     return 0;
 }
